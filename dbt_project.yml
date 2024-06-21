@@ -1,7 +1,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: "imdb_bi"
+name: "stellar_bi"
 version: "1.0.0"
 config-version: 2
 
@@ -29,33 +29,22 @@ clean-targets: # directories to be removed by `dbt clean`
 # These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 models:
-  imdb_bi:
+  stellar_bi:
     +materialized: view
 
     staging: # Data storage layer
-      +materialized: view
+      +materialized: ephemeral
       +schema: STAGING
 
-    refined: # Refined data layer
+    refined: # Business Rules layer
       +materialized: view
       +schema: REFINED
 
-    marts: # Data delivery layer
-      portfolio: # one specific data mart
-        +materialized: table
-        +schema: MART_PORTFOLIO
+    edw: # Data Integration layer
+      +materialized: table
+      +schema: EDW
 
-# Configuring Seeds
-seeds:
-  +schema: SEED_DATA
-  imdb_bi:
-    IMDB_CATEGORY_TYPE_SEED:
-      +column_types:
-        LOAD_TS_UTC: TIMESTAMP
-      +post-hook:
-        - "UPDATE {{ this }} SET LOAD_TS_UTC = '{{ run_started_at}}' WHERE LOAD_TS_UTC is null"
-    IMDB_WORK_EFFORT_SEED:
-      +column_types:
-        LOAD_TS_UTC: TIMESTAMP
-      +post-hook:
-        - "UPDATE {{ this }} SET LOAD_TS_UTC = '{{ run_started_at}}' WHERE LOAD_TS_UTC is null"        
+    marts: # Data delivery layer
+      take_home: # one specific data mart
+        +materialized: table
+        +schema: MART_STELLAR
