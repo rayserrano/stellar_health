@@ -1,0 +1,141 @@
+version: 2
+
+sources:
+  - name: stellar
+    database: health
+    schema: land_zone
+    tables:
+      - name: healthcare_dataset
+        columns:
+          - name: patient_id
+            data_type: number
+          - name: age
+            data_type: number
+          - name: gender
+            data_type: varchar
+          - name: blood_type
+            data_type: varchar
+          - name: height (cm)
+            data_type: number
+          - name: weight (kg)
+            data_type: number
+          - name: bmi
+            data_type: number
+          - name: temperature (c)
+            data_type: number
+          - name: heart_rate (bpm)
+            data_type: number
+          - name: blood_pressure (mmhg)
+            data_type: varchar
+
+      - name: medical_group_list
+        columns:
+          - name: medical_group_id
+            data_type: varchar
+          - name: groupname
+            data_type: varchar
+          - name: state
+            data_type: varchar
+          - name: date_group_created
+            data_type: timestamp_tz
+          - name: number_of_users
+            data_type: number
+          - name: number_of_patients
+            data_type: number
+          - name: created_date
+            data_type: timestamp_tz
+          - name: updated_date
+            data_type: timestamp_tz
+
+      - name: medical_group_user
+        columns:
+          - name: user_id
+            data_type: varchar
+          - name: username
+            data_type: varchar
+          - name: medical_group_id
+            data_type: varchar
+          - name: password
+            data_type: varchar
+          - name: role
+            data_type: varchar
+          - name: date_user_created
+            data_type: timestamp_tz
+          - name: last_login_date
+            data_type: timestamp_tz
+          - name: created_date
+            data_type: timestamp_tz
+          - name: updated_date
+            data_type: timestamp_tz
+
+      - name: patient_access_dm
+        columns:
+          - name: patient_id
+            data_type: varchar
+          - name: age
+            data_type: number
+          - name: weight
+            data_type: number
+          - name: user_access_count
+            data_type: number
+
+      - name: patient_access_fact
+        columns:
+          - name: patient_id
+            data_type: varchar
+          - name: user_access_count
+            data_type: number
+
+      - name: patient_access_log
+        columns:
+          - name: patient_access_log_id
+            data_type: varchar
+          - name: patient_id
+            data_type: varchar
+          - name: user_id
+            data_type: varchar
+          - name: date_accessed
+            data_type: timestamp_tz
+          - name: created_date
+            data_type: timestamp_tz
+          - name: updated_date
+            data_type: timestamp_tz
+
+      - name: patient_demographics
+        columns:
+          - name: patient_id
+            data_type: varchar
+          - name: age
+            data_type: number
+          - name: weight
+            data_type: number
+          - name: last_visit_date
+            data_type: timestamp_tz
+          - name: created_date
+            data_type: timestamp_tz
+          - name: updated_date
+            data_type: timestamp_tz
+
+      - name: retirement_focus_dm
+        columns:
+          - name: medical_group_id
+            data_type: varchar
+          - name: groupname
+            data_type: varchar
+          - name: number_of_users
+            data_type: number
+          - name: number_of_patients
+            data_type: number
+          - name: retired_patient_count
+            data_type: number
+          - name: ranking
+            data_type: number
+
+      - name: retirement_focus_fact
+        columns:
+          - name: medical_group_id
+            data_type: varchar
+          - name: retired_patient_count
+            data_type: number
+          - name: ranking
+            data_type: number
