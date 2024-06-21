@@ -1,0 +1,10 @@
+{{
+    codegen.generate_source(
+        database_name="fivetran_database",
+        schema_name="land_ukg",
+        generate_columns=True,
+        name="ukg",
+        include_database=True,
+        include_schema=True,
+    )
+}}
