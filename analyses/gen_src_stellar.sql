@@ -1,9 +1,9 @@
 {{
     codegen.generate_source(
-        database_name="fivetran_database",
-        schema_name="land_ukg",
+        database_name="health",
+        schema_name="land_zone",
         generate_columns=True,
-        name="ukg",
+        name="stellar",
         include_database=True,
         include_schema=True,
     )
