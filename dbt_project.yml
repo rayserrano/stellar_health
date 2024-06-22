@@ -47,4 +47,4 @@ models:
     marts: # Data delivery layer
       take_home: # one specific data mart
         +materialized: table
-        +schema: MART_STELLAR
+        +schema: MART_TAKE_HOME
