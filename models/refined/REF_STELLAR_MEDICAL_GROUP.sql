@@ -29,8 +29,8 @@ select
     state,
     date_group_created,
     number_of_users,
-    created_date,
     number_of_patients,
+    created_date,
     load_ts_utc,
     deleted
 from current_data
