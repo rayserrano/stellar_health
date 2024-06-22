@@ -14,7 +14,7 @@ select
     {{
         dbt_utils.generate_surrogate_key(
             [
-                "patient_code",
+                "patient_code_stellar",
                 "age",
                 "weight",
                 "last_visit_date",

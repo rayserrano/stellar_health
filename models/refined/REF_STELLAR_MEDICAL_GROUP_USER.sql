@@ -8,7 +8,7 @@ with
         }}
     )
 select
-    {{ get_business_key_source("medical_group_user_code", "STELLAR", "|") }}
+    {{ get_business_key_source("cr.medical_group_user_code", "STELLAR", "|") }}
     as medical_group_user_code_stellar,
     {{ dbt_utils.generate_surrogate_key(["medical_group_user_code_stellar"]) }}
     as medical_group_user_hkey,
@@ -16,23 +16,27 @@ select
         dbt_utils.generate_surrogate_key(
             [
                 "medical_group_user_code_stellar",
-                "medical_group_user_name",
-                "medical_group_code",
-                "password",
-                "user_role",
-                "date_user_created",
-                "last_login_date",
-                "deleted",
+                "cr.medical_group_user_name",
+                "cr.medical_group_code",
+                "cr.password",
+                "cr.user_role",
+                "cr.date_user_created",
+                "cr.last_login_date",
+                "cr.deleted",
             ]
         )
-    }} as medical_group_hdiff,
-    medical_group_user_name,
-    medical_group_code,
-    password,
-    user_role,
-    date_user_created,
-    last_login_date,
-    created_date,
-    load_ts_utc,
-    deleted
-from current_data
+    }} as medical_group_user_hdiff,
+    cr.medical_group_user_code,
+    cr.medical_group_user_name,
+    mg.medical_group_hkey,
+    cr.password,
+    cr.user_role,
+    cr.date_user_created,
+    cr.last_login_date,
+    cr.created_date,
+    cr.load_ts_utc,
+    cr.deleted
+from current_data cr
+join
+    {{ ref("REF_STELLAR_MEDICAL_GROUP") }} mg
+    on mg.medical_group_code = cr.medical_group_code
