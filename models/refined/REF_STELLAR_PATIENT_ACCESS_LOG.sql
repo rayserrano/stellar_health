@@ -15,19 +15,22 @@ select
     {{
         dbt_utils.generate_surrogate_key(
             [
-                "patient_access_log_code",
-                "patient_code",
-                "medical_group_user_code",
-                "date_accessed",
-                "deleted",
+                "patient_access_log_code_stellar",
+                "p.patient_code_stellar",
+                "cr.medical_group_user_code",
+                "cr.date_accessed",
+                "cr.deleted",
             ]
         )
-    }} as patient_hdiff,
-    patient_access_log_code,
-    patient_code,
-    medical_group_user_code,
-    date_accessed,
-    created_date,
-    load_ts_utc,
-    deleted
-from current_data
+    }} as patient_access_log_hdiff,
+    p.patient_hkey,
+    mgu.medical_group_user_hkey,
+    cr.date_accessed,
+    cr.created_date,
+    cr.load_ts_utc,
+    cr.deleted
+from current_data cr
+join {{ ref("REF_STELLAR_PATIENT") }} p on p.patient_code = cr.patient_code
+join
+    {{ ref("REF_STELLAR_MEDICAL_GROUP_USER") }} mgu
+    on mgu.medical_group_user_code = cr.medical_group_user_code

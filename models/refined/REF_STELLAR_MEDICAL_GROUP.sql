@@ -25,6 +25,7 @@ select
             ]
         )
     }} as medical_group_hdiff,
+    medical_group_code,
     medical_group_name,
     state,
     date_group_created,

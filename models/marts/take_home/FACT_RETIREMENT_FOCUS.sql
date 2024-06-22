@@ -1,6 +1,6 @@
 {{
     config(
-        alias="medical_group_dim",
+        alias="retirement_focus_fact",
         unique_key="medical_group_dim_id",
     )
 }}
@@ -13,19 +13,20 @@ with
     ),
     retired_patients as (select patient_hkey from set_retired where retired),
     unique_patient_user as (
-        select distinct patient_id, user_id
+        select distinct patient_hkey, medical_group_user_hkey,
         from {{ ref("REF_STELLAR_PATIENT_ACCESS_LOG") }}
     ),
     retired_groups as (
-        select mgl.medical_group_id, count(*) as retired_patient_count
+        select mg.medical_group_hkey, count(*) as retired_patient_count
         from retired_patients rp
-        join unique_patient_user pal on pal.patient_id = rp.patient_id
+        join unique_patient_user pal on pal.patient_hkey = rp.patient_hkey
         join
-            {{ ref("REF_STELLAR_MEDICAL_GROUP_USER") }} mgu on mgu.user_id = pal.user_id
+            {{ ref("REF_STELLAR_MEDICAL_GROUP_USER") }} mgu
+            on mgu.medical_group_user_hkey = pal.medical_group_user_hkey
         join
-            {{ ref("REF_STELLAR_MEDICAL_GROUP") }} mgl
-            on mgl.medical_group_id = mgu.medical_group_id
-        group by mgl.medical_group_id
+            {{ ref("REF_STELLAR_MEDICAL_GROUP") }} mg
+            on mg.medical_group_hkey = mgu.medical_group_hkey
+        group by mg.medical_group_hkey
     ),
     final as (
         select *, rank() over (order by retired_patient_count desc) as ranking
