@@ -1,4 +1,4 @@
-{% macro current_from_history2(
+{% macro current_from_history(
     history_rel,
     key_column,
     selection_expr="*",
