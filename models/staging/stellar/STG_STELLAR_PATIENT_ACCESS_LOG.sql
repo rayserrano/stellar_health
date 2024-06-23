@@ -11,7 +11,7 @@ with
     ),
     hashed as (
         select
-            {{ dbt_utils.generate_surrogate_key(["patient_code"]) }}
+            {{ dbt_utils.generate_surrogate_key(["patient_access_log_code"]) }}
             as patient_access_log_hkey,
             {{
                 dbt_utils.generate_surrogate_key(

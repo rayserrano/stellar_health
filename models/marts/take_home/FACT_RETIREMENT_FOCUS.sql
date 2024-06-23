@@ -29,7 +29,10 @@ with
         group by mg.medical_group_hkey
     ),
     final as (
-        select *, rank() over (order by retired_patient_count desc) as ranking
+        select
+            medical_group_hkey as medical_group_dim_id,
+            retired_patient_count,
+            rank() over (order by retired_patient_count desc) as ranking
         from retired_groups
     )
 select *
